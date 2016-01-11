@@ -1,0 +1,42 @@
+一、环境安装:
+  操作系统: linux or mac or windows(搭配cygwin)
+  需要安装expect 插件:
+  sudo apt-get install expect
+  或者
+  yum install expect
+
+二、文件目录:
+
+1、*list:
+    服务器的ip-username-password 列表。
+    ex:
+      controller.list: 控制节点机器列表
+      compute.list: 计算节点机器列表
+2、*sh:
+    具体执行scp 或者shell 命令的脚本。
+    ex:
+      scp_excute.sh: 批量上传文件, 单一文件或者目录。
+      ssh_excute: 通过except 插件连接到服务器上, 执行命令, 该命令通过上传shell 脚本执行。
+                  即，执行ljx_batch_excute(自定义shell脚本中的命令)。也可以自己更改ssh_excute.sh
+                  去定制。
+3、*py:
+    script_main.py 主要的执行脚本, 在终端下执行。
+    $ ./script_main.py -h
+
+      usage: PROG [-h] [-lf LF] [-df DF] [-sf SF] {scp,ssh_excute}
+
+      positional arguments:
+        {scp,ssh_excute}  操作的类型 scp/ssh执行脚本
+
+      optional arguments:
+        -h, --help        show this help message and exit
+        -lf LF            目标列表路径
+        -df DF            目的路径
+        -sf SF            源路径
+
+三、使用示例:
+  批量上传文件:
+  $ ./script_main.py scp -lf ./compute.list -sf ./ljx_batch_excute.sh -df /root
+
+  批量执行脚本:
+  $ ./script_main.py ssh_excute -lf ./compute.list
